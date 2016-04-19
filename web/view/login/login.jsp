@@ -18,8 +18,8 @@
 
 <div class="container">
 
-    <form class="form-signin" method="post" action="<%=request.getContextPath()%>/login.do">
-        <h2 class="form-signin-heading">私有云平台</h2>
+    <form class="form-signin" method="post" action="<%=request.getContextPath()%>/login/dologin">
+        <h2 class="form-signin-heading">云教学平台</h2>
         <div class="login-wrap">
             <span style="padding-bottom: 1px;color: red">${errmsg}</span>
             <input name="userName" type="text" class="form-control" required placeholder="用户名" autofocus>

@@ -1,7 +1,7 @@
 //package com.cpj.dao.impl;
 //
 //import com.cpj.dao.UserDao;
-//import com.cpj.pojo.User;
+//import com.cpj.pojo.SecUser;
 //import org.hibernate.Query;
 //import org.hibernate.Session;
 //import org.hibernate.SessionFactory;
@@ -21,14 +21,24 @@
 //    public Session getSession(){
 //        return sessionFactory.getCurrentSession();
 //    }
-//    public User findByUserName(String userName){
-//        User user = null;
-//        Query query = getSession().createQuery("from User as u where u.userName=?");
-//        query.setString(0, userName);
-//        List<User> users = query.list();
-//        if (users.size() > 0) {
-//            return users.get(0);
+//
+//    public SecUser findByUserName(String userName) {
+//        Query query = getSession().createQuery("from SecUser as u where u.userName=?");
+//        query.setString(0,userName);
+//        List<SecUser> secUsers = query.list();
+//        if(secUsers.size()>0){
+//            return secUsers.get(0);
 //        }
-//        return user;
+//        return null;
 //    }
+////    public User findByUserName(String userName){
+////        User user = null;
+////        Query query = getSession().createQuery("from User as u where u.userName=?");
+////        query.setString(0, userName);
+////        List<User> users = query.list();
+////        if (users.size() > 0) {
+////            return users.get(0);
+////        }
+////        return user;
+////    }
 //}

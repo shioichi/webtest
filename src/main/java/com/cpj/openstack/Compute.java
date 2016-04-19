@@ -4,6 +4,7 @@ import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.compute.*;
 import org.openstack4j.model.compute.*;
+import org.openstack4j.model.identity.Tenant;
 import org.openstack4j.model.network.NetFloatingIP;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class Compute {
     private ComputeFloatingIPService getFloatingIps(OSClient os){return os.compute().floatingIps();}
     private KeypairService getKeypairs(OSClient os){return os.compute().keypairs();}
     private ComputeSecurityGroupService getSecGroups(OSClient os){return os.compute().securityGroups();}
+    private QuotaSetService getQuos(OSClient os){return os.compute().quotaSets();}
     /*flavor curd*/
 
     /**
@@ -614,6 +616,40 @@ public class Compute {
         }
         return flag;
 
+    }
+
+    /**
+     * 查看租户的资源
+     * @param os
+     * @param tenant
+     * @return
+     */
+    public QuotaSet getQuotaSet(OSClient os, Tenant tenant){
+        QuotaSet quotaSet = null;
+        try {
+            quotaSet = getQuos(os).get(tenant.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return quotaSet;
+
+    }
+
+    /**
+     * 查看计算资源使用情况
+     * @param os
+     * @param tenant
+     * @return
+     */
+    public Limits getQuotaUsage(OSClient os, Tenant tenant){
+//       return getQuos(os).getTenantUsage(tenant.getId());
+        Limits limits = null;
+        try {
+            limits = getQuos(os).limits();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return limits;
     }
 
 }

@@ -2,20 +2,22 @@ package com.cpj.openstack;
 
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.api.storage.BlockQuotaSetService;
 import org.openstack4j.api.storage.BlockVolumeService;
 import org.openstack4j.api.storage.BlockVolumeSnapshotService;
-import org.openstack4j.model.storage.block.Volume;
-import org.openstack4j.model.storage.block.VolumeSnapshot;
-import org.openstack4j.model.storage.block.VolumeType;
+import org.openstack4j.model.storage.block.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by chenpengjiang on 2016/3/21.
  */
+@Service
 public class Cinder {
     private BlockVolumeService getBlock(OSClient os){return os.blockStorage().volumes();}
     private BlockVolumeSnapshotService getSnapshot(OSClient os){return os.blockStorage().snapshots();}
+    private BlockQuotaSetService getBlockQuo(OSClient os){return os.blockStorage().quotaSets();}
 
     /**
      * 查询所有硬盘的类型
@@ -216,5 +218,40 @@ public class Cinder {
             e.printStackTrace();
         }
         return  flag;
+    }
+
+    /**
+     * 查询改租户的可用卷的配额
+     * @param os
+     * @param tenantid
+     * @return
+     */
+    public BlockQuotaSet Cinderusage(OSClient os,String tenantid){
+        BlockQuotaSet blockQuotaSet = null;
+        try {
+            blockQuotaSet = getBlockQuo(os).get(tenantid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return blockQuotaSet;
+
+    }
+
+    /**
+     * 查询租户硬盘资源的使用情况
+     * @param os
+     * @param tenantid
+     * @return
+     */
+    public BlockQuotaSetUsage Cinderinusage(OSClient os,String tenantid){
+
+        BlockQuotaSetUsage blockQuotaSetUsage = null;
+        try {
+            blockQuotaSetUsage = getBlockQuo(os).usageForTenant(tenantid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return blockQuotaSetUsage;
     }
 }

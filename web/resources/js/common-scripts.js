@@ -46,8 +46,7 @@ var Script = function () {
         $(window).on('load', responsiveView);
         $(window).on('resize', responsiveView);
     });
-
-    $('.icon-reorder').click(function () {
+    $(document).on('click','.icon-reorder',function(){
         if ($('#sidebar > ul').is(":visible") === true) {
             $('#main-content').css({
                 'margin-left': '0px'
